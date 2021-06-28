@@ -21,9 +21,9 @@ orbs:
       do-common-stuff:
         description: Does stuff that's common for Mode
         steps:
-          - buildevents/with_job_span:
-              steps:
-                - run: echo "Doing common Mode stuff"
+          - buildevents/berun:
+              bename: echo
+              becommand: echo "Doing common Mode stuff"
 
 workflows:
   build:
@@ -56,9 +56,9 @@ commands:
         type: string
         default: << pipeline.parameters.trunk_branch_name >>
     steps:
-      - buildevents/with_job_span:
-          steps:
-            - run: echo "The trunk branch is named '<< parameters.branch >>'"
+      - buildevents/berun:
+          bename: echo
+          becommand: echo "The trunk branch is named '<< parameters.branch >>'"
 
 jobs:
   setup-buildevents:
