@@ -1,0 +1,64 @@
+version: 2.1
+
+parameters:
+  trunk_branch_name:
+    description: "Name of the trunk branch"
+    type: "string"
+    default: "master"
+
+orbs:
+  buildevents: honeycombio/buildevents@0.2.8
+
+  mode-common:
+    orbs:
+      buildevents: honeycombio/buildevents@0.2.8
+
+#    commands: []
+
+#    jobs: []
+
+workflows:
+  build:
+    jobs:
+      - configure
+      - build
+      - test
+      - package
+      - deploy
+
+executors:
+  common:
+    docker:
+      - image: cimg/base
+
+commands:
+  command-using-pipeline-parameter:
+    description: This command uses a pipeline parameter.
+    steps:
+      - run: echo << pipeline.parameters.trunk_branch_name >>
+
+jobs:
+  configure:
+    executor: common
+    steps:
+      - run: echo I'm configure
+
+  build:
+    executor: common
+    steps:
+      - run: echo I'm build
+
+  test:
+    executor: common
+    steps:
+      - run: echo I'm test
+
+  package:
+    executor: common
+    steps:
+      - run: echo I'm package
+
+  deploy:
+    executor: common
+    steps:
+      - run: echo I'm deploy
