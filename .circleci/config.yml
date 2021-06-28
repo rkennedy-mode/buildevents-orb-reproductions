@@ -13,9 +13,9 @@ parameters:
 orbs:
   buildevents: honeycombio/buildevents@0.2.8
 
-  mode-common:
-    orbs:
-      buildevents: honeycombio/buildevents@0.2.8
+#  mode-common:
+#    orbs:
+#      buildevents: honeycombio/buildevents@0.2.8
 
 #    commands: []
 
@@ -27,16 +27,17 @@ workflows:
       - setup-buildevents
       - watch-buildevents:
           requires: [ "setup-buildevents" ]
-      - configure:
-          requires: [ "setup-buildevents" ]
-      - build:
-          requires: [ "setup-buildevents" ]
+#      - configure:
+#          requires: [ "setup-buildevents" ]
+#      - build:
+#          requires: [ "setup-buildevents", "configure" ]
       - test:
           requires: [ "setup-buildevents" ]
-      - package:
-          requires: [ "setup-buildevents" ]
-      - deploy:
-          requires: [ "setup-buildevents" ]
+#          requires: [ "setup-buildevents", "build" ]
+#      - package:
+#          requires: [ "setup-buildevents", "test" ]
+#      - deploy:
+#          requires: [ "setup-buildevents", "package" ]
 
 executors:
   common:
@@ -47,7 +48,7 @@ commands:
   command-using-pipeline-parameter:
     description: This command uses a pipeline parameter.
     steps:
-      - run: echo << pipeline.parameters.trunk_branch_name >>
+      - run: echo "The trunk branch is named '<< pipeline.parameters.trunk_branch_name >>'"
 
 jobs:
   setup-buildevents:
@@ -61,37 +62,39 @@ jobs:
       - buildevents/watch_build_and_finish:
           timeout: 60
 
-  configure:
-    executor: common
-    steps:
-      - buildevents/with_job_span:
-          steps:
-            - run: echo "I'm configure"
+#  configure:
+#    executor: common
+#    steps:
+#      - buildevents/with_job_span:
+#          steps:
+#            - command-using-pipeline-parameter
+#            - run: echo "I'm configure"
 
-  build:
-    executor: common
-    steps:
-      - buildevents/with_job_span:
-          steps:
-            - run: echo "I'm build"
+#  build:
+#    executor: common
+#    steps:
+#      - buildevents/with_job_span:
+#          steps:
+#            - run: echo "I'm build"
 
   test:
     executor: common
     steps:
       - buildevents/with_job_span:
           steps:
+            - command-using-pipeline-parameter
             - run: echo "I'm test"
 
-  package:
-    executor: common
-    steps:
-      - buildevents/with_job_span:
-          steps:
-            - run: echo "I'm package"
+#  package:
+#    executor: common
+#    steps:
+#      - buildevents/with_job_span:
+#          steps:
+#            - run: echo "I'm package"
 
-  deploy:
-    executor: common
-    steps:
-      - buildevents/with_job_span:
-          steps:
-            - run: echo "I'm deploy"
+#  deploy:
+#    executor: common
+#    steps:
+#      - buildevents/with_job_span:
+#          steps:
+#            - run: echo "I'm deploy"
