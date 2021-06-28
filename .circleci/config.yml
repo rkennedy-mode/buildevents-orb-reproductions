@@ -4,7 +4,7 @@ parameters:
   trunk_branch_name:
     description: "Name of the trunk branch"
     type: "string"
-    default: "master"
+    default: "trunk"
 
 orbs:
   buildevents: honeycombio/buildevents@0.2.8
