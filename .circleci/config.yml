@@ -1,6 +1,10 @@
 version: 2.1
 
 parameters:
+  base_docker_image:
+    description: "Name of the base docker image to use"
+    type: "string"
+    default: "cimg/base:2021.04"
   trunk_branch_name:
     description: "Name of the trunk branch"
     type: "string"
@@ -20,16 +24,30 @@ orbs:
 workflows:
   build:
     jobs:
-      - configure
-      - build
-      - test
-      - package
-      - deploy
+      - setup-buildevents:
+          context:
+            - Shared Secrets
+            - dockerhub-creds
+      - watch-buildevents:
+          context:
+            - Shared Secrets
+            - dockerhub-creds
+          requires: [ "setup-buildevents" ]
+      - configure:
+          requires: [ "setup-buildevents" ]
+      - build:
+          requires: [ "setup-buildevents" ]
+      - test:
+          requires: [ "setup-buildevents" ]
+      - package:
+          requires: [ "setup-buildevents" ]
+      - deploy:
+          requires: [ "setup-buildevents" ]
 
 executors:
   common:
     docker:
-      - image: cimg/base:2021.04
+      - image: << pipeline.parameters.base_docker_image >>
 
 commands:
   command-using-pipeline-parameter:
@@ -38,6 +56,17 @@ commands:
       - run: echo << pipeline.parameters.trunk_branch_name >>
 
 jobs:
+  setup-buildevents:
+    executor: common
+    steps:
+      - buildevents/start_trace
+
+  watch-buildevents:
+    executor: common
+    steps:
+      - buildevents/watch_build_and_finish:
+          timeout: 60
+
   configure:
     executor: common
     steps:
