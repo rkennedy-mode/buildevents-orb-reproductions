@@ -27,17 +27,16 @@ workflows:
       - setup-buildevents
       - watch-buildevents:
           requires: [ "setup-buildevents" ]
-#      - configure:
-#          requires: [ "setup-buildevents" ]
-#      - build:
-#          requires: [ "setup-buildevents", "configure" ]
-      - test:
+      - configure:
           requires: [ "setup-buildevents" ]
-#          requires: [ "setup-buildevents", "build" ]
-#      - package:
-#          requires: [ "setup-buildevents", "test" ]
-#      - deploy:
-#          requires: [ "setup-buildevents", "package" ]
+      - build:
+          requires: [ "setup-buildevents", "configure" ]
+      - test:
+          requires: [ "setup-buildevents", "build" ]
+      - package:
+          requires: [ "setup-buildevents", "test" ]
+      - deploy:
+          requires: [ "setup-buildevents", "package" ]
 
 executors:
   common:
