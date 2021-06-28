@@ -41,24 +41,24 @@ jobs:
   configure:
     executor: common
     steps:
-      - run: echo I'm configure
+      - run: echo "I'm configure"
 
   build:
     executor: common
     steps:
-      - run: echo I'm build
+      - run: echo "I'm build"
 
   test:
     executor: common
     steps:
-      - run: echo I'm test
+      - run: echo "I'm test"
 
   package:
     executor: common
     steps:
-      - run: echo I'm package
+      - run: echo "I'm package"
 
   deploy:
     executor: common
     steps:
-      - run: echo I'm deploy
+      - run: echo "I'm deploy"
