@@ -29,7 +29,7 @@ workflows:
 executors:
   common:
     docker:
-      - image: cimg/base
+      - image: cimg/base:2021.04
 
 commands:
   command-using-pipeline-parameter:
