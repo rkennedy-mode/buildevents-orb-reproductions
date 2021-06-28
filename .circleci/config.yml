@@ -24,14 +24,8 @@ orbs:
 workflows:
   build:
     jobs:
-      - setup-buildevents:
-          context:
-            - Shared Secrets
-            - dockerhub-creds
+      - setup-buildevents
       - watch-buildevents:
-          context:
-            - Shared Secrets
-            - dockerhub-creds
           requires: [ "setup-buildevents" ]
       - configure:
           requires: [ "setup-buildevents" ]
