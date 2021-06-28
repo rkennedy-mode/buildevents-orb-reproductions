@@ -30,13 +30,13 @@ workflows:
       - configure:
           requires: [ "setup-buildevents" ]
       - build:
-          requires: [ "setup-buildevents", "configure" ]
+          requires: [ "configure" ]
       - test:
-          requires: [ "setup-buildevents", "build" ]
+          requires: [ "build" ]
       - package:
-          requires: [ "setup-buildevents", "test" ]
+          requires: [ "test" ]
       - deploy:
-          requires: [ "setup-buildevents", "package" ]
+          requires: [ "package" ]
 
 executors:
   common:
