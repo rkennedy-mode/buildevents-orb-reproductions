@@ -64,24 +64,34 @@ jobs:
   configure:
     executor: common
     steps:
-      - run: echo "I'm configure"
+      - buildevents/with_job_span:
+          steps:
+            - run: echo "I'm configure"
 
   build:
     executor: common
     steps:
-      - run: echo "I'm build"
+      - buildevents/with_job_span:
+          steps:
+            - run: echo "I'm build"
 
   test:
     executor: common
     steps:
-      - run: echo "I'm test"
+      - buildevents/with_job_span:
+          steps:
+            - run: echo "I'm test"
 
   package:
     executor: common
     steps:
-      - run: echo "I'm package"
+      - buildevents/with_job_span:
+          steps:
+            - run: echo "I'm package"
 
   deploy:
     executor: common
     steps:
-      - run: echo "I'm deploy"
+      - buildevents/with_job_span:
+          steps:
+            - run: echo "I'm deploy"
