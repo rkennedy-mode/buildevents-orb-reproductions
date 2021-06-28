@@ -56,7 +56,9 @@ commands:
         type: string
         default: << pipeline.parameters.trunk_branch_name >>
     steps:
-      - run: echo "The trunk branch is named '<< parameters.branch >>'"
+      - buildevents/with_job_span:
+          steps:
+            - run: echo "The trunk branch is named '<< parameters.branch >>'"
 
 jobs:
   setup-buildevents:
