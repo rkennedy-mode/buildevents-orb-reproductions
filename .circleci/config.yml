@@ -13,13 +13,17 @@ parameters:
 orbs:
   buildevents: honeycombio/buildevents@0.2.8
 
-#  mode-common:
-#    orbs:
-#      buildevents: honeycombio/buildevents@0.2.8
+  mode-common:
+    orbs:
+      buildevents: honeycombio/buildevents@0.2.8
 
-#    commands: []
-
-#    jobs: []
+    commands:
+      do-common-stuff:
+        description: Does stuff that's common for Mode
+        steps:
+          - buildevents/with_job_span:
+              steps:
+                - run: echo "Doing common Mode stuff"
 
 workflows:
   build:
@@ -72,6 +76,7 @@ jobs:
       - buildevents/with_job_span:
           steps:
             - command-using-pipeline-parameter
+            - mode-common/do-common-stuff
             - run: echo "I'm configure"
 
   build:
